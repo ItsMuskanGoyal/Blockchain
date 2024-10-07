@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <title> All Checkers </title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1> All Checkers </h1>
+        <div>
+            <input type="text" id="a" placeholder="Enter the number">
+            <button id="isPrime"> Prime_Checker </button>
+            <button id="fibonacci"> Fibonacci </button>
+            <button id="factorial"> Factorial </button>
+        </div>
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        const web3 = new Web3(new Web3.providers.HttpProvider("https://sepolia.infura.io/v3/599190d9276a4f6b91b84ba8ac8d2764"))
+
+        let abi = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "number",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "factorial",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "pure",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "n",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "fibonacci",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "pure",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "number",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "isPrime",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "pure",
+                "type": "function"
+            }
+        ]
+
+        let address = "0x147270b11d9c148e66503ea7ed56277508b56774"
+
+        const contract = new web3.eth.Contract(abi, address)
+
+        document.getElementById('isPrime').addEventListener('click', async function() {
+            let a = parseInt(document.getElementById('a').value)
+            let result = await contract.methods.isPrime(a).call()
+            document.getElementById('result').innerHTML = "Prime Result: " + result
+        })
+
+        document.getElementById('fibonacci').addEventListener('click', async function() {
+            let a = parseInt(document.getElementById('a').value)
+            let result = await contract.methods.fibonacci(a).call()
+            document.getElementById('result').innerHTML = "Fibonacci Result: " + result
+        })
+
+        document.getElementById('factorial').addEventListener('click', async function() {
+            let a = parseInt(document.getElementById('a').value)
+            let result = await contract.methods.factorial(a).call()
+            document.getElementById('result').innerHTML = "Factorial Result: " + result
+        })
+    </script>
+</body>
+</html>
